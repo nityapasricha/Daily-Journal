@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Login – Daily Journal</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			height: 100%;
+			font-family: "Marker Felt", sans-serif;
+		}
+
+		.bg-wrapper {
+			position: relative;
+			width: 100%;
+			height: 100vh;
+			overflow: hidden;
+		}
+
+		.bg-wrapper img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			z-index: -1;
+		}
+
+		.overlay-form {
+			position: absolute;
+			top: 50%;
+			left: 150px;
+			transform: translateY(-50%);
+			width: 350px;
+			background: rgba(255, 255, 255, 0.3);
+			padding: 40px;
+			border-radius: 10px;
+			backdrop-filter: blur(8px);
+			box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+		}
+
+		.overlay-form h2 {
+			margin-bottom: 30px;
+			font-size: 3em;
+			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+			color: #8b4513;
+			text-align: center;
+		}
+
+		.form-group {
+			margin-bottom: 20px;
+		}
+
+		label {
+			display: block;
+			color: #a0522d;
+			font-weight: bold;
+			margin-bottom: 8px;
+			font-size: 1.5em;
+		}
+
+		input {
+			width: 100%;
+			padding: 10px;
+			border: none;
+			border-radius: 5px;
+			font-size: 0.8em;
+		}
+
+		.login-button {
+			margin-top: 20px;
+			width: 100%;
+			padding: 12px;
+			border: none;
+			border-radius: 5px;
+			background-color: #cd853f;
+			color: white;
+			font-size: 1em;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.login-button:hover {
+			background-color: rgba(255, 255, 255, 0.95);
+		}
+
+		@media screen and (max-width: 600px) {
+			.overlay-form {
+				left: 20px;
+				width: 80%;
+				padding: 25px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="bg-wrapper">
+		<img src="/images/form1.webp" alt="Login Background Image">
+		<div class="overlay-form">
+			<h2>Login</h2>
+
+				<div th:if="${param.logout}" style="text-align: center; color: green;">
+					<p>You have successfully logged out.</p>
+				</div>
+
+				<form th:action="@{/users/login}" method="post">
+					<div class="form-group">
+						<label for="username">Username</label> <input type="text" name="username" id="username"
+							required />
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label> <input type="password" name="password" id="password"
+							required />
+					</div>
+					<button type="submit" class="login-button">Login</button>
+					<p style="text-align: center; margin-top: 15px; color: #a0522d;">
+						New user? <a th:href="@{/register}" style="color: #a0522d; text-decoration: underline;">Create
+							an
+							account</a>
+					</p>
+				</form>
+			</div>
+		</div>
+</body>
+
+</html>

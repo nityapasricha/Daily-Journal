@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Data Error – Daily Journal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #fffaf3;
+      font-family: "Segoe UI", sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    .error-wrapper {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: #fff7ea;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(205, 133, 63, 0.15);
+    }
+
+    .error-wrapper i {
+      font-size: 60px;
+      color: #cd853f;
+      margin-bottom: 20px;
+    }
+
+    .error-wrapper h2 {
+      font-size: 28px;
+      color: #3a2f2f;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .error-wrapper p {
+      font-size: 16px;
+      color: #6e5344;
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    .btn-peru {
+      background-color: #cd853f;
+      color: white;
+      border: none;
+      font-weight: 600;
+      font-size: 1em;
+      border-radius: 20px;
+      padding: 10px 20px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-peru:hover {
+      background-color: #d38c5f;
+      box-shadow: 0 0 10px rgba(205, 133, 63, 0.3);
+    }
+
+    .btn-peru i {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="error-wrapper">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    <h2>Data Submission Error</h2>
+	
+	<p th:if="${error}" th:text="${error}"></p>
+              
+    <p>
+      Something went wrong while saving your journal.<br>
+      This may be due to invalid data or a duplicated entry.<br>
+      Please check your inputs and try again.
+    </p>
+    <a href="/users/dashboard" class="btn-peru">
+      <i class="bi bi-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

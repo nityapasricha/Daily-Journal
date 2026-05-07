@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Register – Daily Journal</title>
+	<style>
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			font-family: 'Segoe UI', sans-serif;
+		}
+
+		.bg-wrapper {
+			position: relative;
+			width: 100%;
+			height: 100vh;
+			overflow: hidden;
+		}
+
+		.bg-wrapper img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			z-index: -1;
+		}
+
+		.form-wrapper {
+			position: absolute;
+			top: 50%;
+			left: 25%;
+			transform: translate(-50%, -50%);
+			width: 400px;
+			background-color: rgba(255, 255, 255, 0.25);
+			padding: 20px;
+			border-radius: 12px;
+			backdrop-filter: blur(8px);
+			box-shadow: 0 0 14px rgba(0, 0, 0, 0.3);
+		}
+
+		.form-wrapper h2 {
+			text-align: center;
+			margin-bottom: 10px;
+			color: #8b4513;
+			font-size: 2em;
+			text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+		}
+
+		.form-group {
+			margin-bottom: 10px;
+		}
+
+		label {
+			display: block;
+			font-weight: bold;
+			margin-bottom: 6px;
+			color: #a0522d;
+		}
+
+		input {
+			width: 100%;
+			padding: 6px;
+			border: none;
+			border-radius: 6px;
+			font-size: 1em;
+		}
+
+		.register-button {
+			margin-top: 20px;
+			width: 100%;
+			padding: 12px;
+			border: none;
+			border-radius: 6px;
+			background-color: #cd853f;
+			font-size: 1em;
+			cursor: pointer;
+			color: white;
+			transition: background-color 0.3s ease;
+		}
+
+		.register-button:hover {
+			background-color: #deb887;
+			color: #5a3e1b;
+		}
+
+		.form-row {
+			display: flex;
+			justify-content: space-between;
+			gap: 20px;
+		}
+
+		.form-row .form-group {
+			flex: 1;
+		}
+
+		@media screen and (max-width: 600px) {
+			.form-wrapper {
+				width: 85%;
+				padding: 25px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="bg-wrapper">
+		<img src="/images/form1.webp" alt="Background Image">
+		<div class="form-wrapper">
+			<h2>Create Account</h2>
+			<div th:if="${session.msg}" class="alert alert-success text-center"
+						role="alert" style="text-align: center; margin-bottom: 20px;">
+			    <p th:text="${session.msg}" 
+			       th:classappend="${session.msg.equals('Email already exist') ? 'text-warning' :
+			                       (session.msg.equals('Username already exist') ? 'text-warning' :
+			                       (session.msg.equals('Registered Successfully') ? 'text-success' : 'text-danger'))}"
+			       style="font-size: 1.1em; font-weight: bold;">
+			    </p>
+			    <script>
+			      // Clear the session message after display
+			      window.onload = function() {
+			        fetch('/users/clear-msg', {method: 'POST'});
+			      }
+			    </script>
+			</div>
+
+
+			<form th:action="@{/users/regis}" method="post"
+				oninput="cpass.setCustomValidity(cpass.value !== pass.value ? 'Passwords do not match' : '')">
+				<div class="form-group">
+					<label for="name">Full Name</label>
+					<input type="text" id="name" name="name" required />
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" id="email" name="email" required />
+				</div>
+				<div class="form-group">
+					<label for="mobile">Mobile</label>
+					<input type="text" id="mobile" name="mobile"
+					       pattern="\d{10}" maxlength="10"
+					       title="Enter a valid 10-digit mobile number"
+					       required />
+
+				</div>
+				<div class="form-group">
+					<label for="username">Username</label>
+					<input type="text" id="username" name="username" required />
+				</div>
+				<div class="form-row">
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" id="password" name="pass" required />
+					</div>
+					<div class="form-group">
+						<label for="confirm">Confirm Password</label>
+						<input type="password" id="confirm" name="cpass" required />
+					</div>
+				</div>
+				<div class="form-group">
+				  <label for="role">Role</label>
+				  <input type="text" id="role" name="role" value="User" readonly style="background-color: #f5f5f5; color: #5a3e1b;" />
+				</div>
+
+				<button type="submit" class="register-button">Sign Up</button>
+				<p style="text-align:center; margin-top:15px; color:#a0522d;">
+					Already have an account?
+					<a th:href="@{/login}" style="color:#a0522d; text-decoration:underline;">Login here</a>
+				</p>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${journal.id} != null ? 'Edit Journal' : 'Create Journal'">Journal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #fffaf3;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    .form-wrapper {
+      max-width: 700px;
+      margin: 60px auto;
+      background-color: #fff7ea;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(205, 133, 63, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #cd853f;
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
+
+    .form-label {
+      color: #a0522d;
+      font-weight: 600;
+    }
+
+    .form-control, textarea {
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    .btn-peru {
+      background-color: #cd853f;
+      color: white;
+      border: none;
+      font-weight: 600;
+      font-size: 1em;
+      border-radius: 20px;
+      padding: 10px 20px;
+      transition: 0.3s ease;
+    }
+
+    .btn-peru:hover {
+      background-color: #d38c5f;
+      box-shadow: 0 0 10px rgba(205, 133, 63, 0.3);
+    }
+
+	.img-preview {
+	  margin-top: 8px;
+	  padding-left: 4px;
+	  font-size: 0.9em;
+	  font-style: italic;
+	  color: #aa7c4f;
+	}
+
+  </style>
+</head>
+<body>
+
+  <div class="container form-wrapper">
+    <h2>
+      <i class="bi" th:class="${journal.id} != null ? 'bi-pencil-square' : 'bi-journal-plus'"></i>
+      <span th:text="${journal.id} != null ? 'Edit Journal Entry' : 'Create a New Journal'">Form Header</span>
+    </h2>
+
+    <form th:action="@{${journal.id} != null ? '/journals/update' : '/journals/create'}"
+          method="post"
+          enctype="multipart/form-data"
+          th:object="${journal}">
+
+      <input type="hidden" th:field="*{id}" />
+
+      <div class="mb-4">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" th:field="*{title}" id="title" class="form-control" required>
+      </div>
+
+	  <div class="mb-4">
+	    <label for="image" class="form-label">Upload Image</label>
+	    <input type="file" name="image" id="image" class="form-control">
+
+	    <div class="img-preview" th:if="*{img}">
+	      <small class="text-muted">Current image: <span th:text="*{img}">image.jpg</span></small>
+	    </div>
+	  </div>
+
+
+      <div class="mb-4">
+        <label for="content" class="form-label">Journal Content</label>
+        <textarea th:field="*{content}" id="content" rows="6" class="form-control" placeholder="Write something inspiring..." required></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label for="tag" class="form-label">Tags</label>
+        <!-- <input type="text" th:field="*{tag}" id="tag" class="form-control" placeholder="e.g. creativity, travel, wellness"> -->
+		<input type="text" name="tag"
+	       th:value="${joinedTags}"
+	       class="form-control" id="tag"
+	       placeholder="e.g. creativity, travel, wellness">
+
+        
+      </div>
+      
+      
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-peru">
+          <i class="bi" th:class="${journal.id} != null ? 'bi-save' : 'bi-send-fill'"></i>
+          <span th:text="${journal.id} != null ? 'Update' : 'Publish'">Submit</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

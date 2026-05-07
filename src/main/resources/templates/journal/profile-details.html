@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Your Profile</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+	rel="stylesheet">
+<style>
+body {
+	background-color: #f9f3e9;
+	font-family: "Segoe UI", sans-serif;
+}
+
+.profile-wrapper {
+	max-width: 720px;
+	margin: 70px auto;
+	background-color: #fffaf3;
+	padding: 45px;
+	border-radius: 14px;
+	box-shadow: 0 2px 10px rgba(160, 82, 45, 0.08);
+}
+
+h2 {
+	font-weight: 600;
+	color: #7d4c20;
+	margin-bottom: 35px;
+	text-align: center;
+}
+
+.form-label {
+	color: #8b4513;
+	font-weight: 600;
+}
+
+.form-control {
+	border-radius: 8px;
+	font-size: 1em;
+}
+
+.btn-peru {
+	background-color: #cd853f;
+	color: white;
+	border: none;
+	font-weight: 600;
+	font-size: 1em;
+	border-radius: 20px;
+	padding: 10px 20px;
+	transition: 0.3s ease;
+}
+
+.btn-peru:hover {
+	background-color: #d38c5f;
+	box-shadow: 0 0 8px rgba(205, 133, 63, 0.3);
+}
+
+.logout-btn {
+	position: absolute;
+	top: 20px;
+	right: 30px;
+}
+
+.btn-danger {
+	border-radius: 20px;
+}
+
+@media ( max-width : 768px) {
+	.logout-btn {
+		position: static;
+		text-align: center;
+		margin-top: 10px;
+	}
+}
+</style>
+</head>
+<body>
+
+	<div class="text-center mt-4">
+		<a th:href="@{/users/dashboard}" class="btn btn-peru"
+			style="border-radius: 20px; font-weight: 600;"> <i
+			class="bi bi-arrow-left me-2"></i> Back to Dashboard
+		</a>
+	</div>
+
+
+
+	<div class="container profile-wrapper">
+		<h2>
+			<i class="bi bi-person-circle"></i> Your Profile
+		</h2>
+
+		<div th:if="${msg}" class="alert alert-success text-center"
+			role="alert">
+			<i class="bi bi-check-circle-fill"></i> <span th:text="${msg}"></span>
+		</div>
+		<!-- Update Info Form -->
+		<form th:action="@{/profile/update}" method="post">
+			<input type="hidden" name="id" th:value="${user.id}" />
+			<div class="mb-3">
+				<label class="form-label">Name</label> <input type="text"
+					name="name" class="form-control" th:value="${user.name}" required />
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Email</label> <input type="email"
+					name="email" class="form-control" th:value="${user.email}" required />
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Mobile</label> <input type="text"
+					name="mobile" class="form-control" th:value="${user.mobile}" />
+			</div>
+
+			<div class="text-center mb-4">
+				<button type="submit" class="btn btn-peru">
+					<i class="bi bi-pencil-square"></i> Update Info
+				</button>
+			</div>
+		</form>
+
+		<hr>
+
+		<!-- Change Password -->
+		<form th:action="@{/profile/change-password}" method="post">
+			<div class="mb-3">
+				<label class="form-label">New Password</label> <input
+					type="password" name="newPassword" class="form-control" required />
+			</div>
+			<div class="text-center mb-4">
+				<button type="submit" class="btn btn-peru">
+					<i class="bi bi-key-fill"></i> Change Password
+				</button>
+			</div>
+		</form>
+
+		<hr>
+
+		<!-- Delete Account -->
+		<form th:action="@{/profile/delete}" method="post"
+			onsubmit="return confirm('Are you sure you want to delete your account permanently?');">
+			<div class="text-center">
+				<button type="submit" class="btn btn-danger">
+					<i class="bi bi-trash-fill"></i> Delete Account
+				</button>
+			</div>
+		</form>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+		<script>
+		  setTimeout(() => {
+		    const alertBox = document.querySelector('.alert.alert-success');
+		    if (alertBox) {
+		      alertBox.style.display = 'none';
+		    }
+		  }, 5000);
+		</script>
+
+</body>
+</html>
