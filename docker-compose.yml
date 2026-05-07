@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: journal-db
+    environment:
+      MYSQL_ROOT_PASSWORD: user123
+      MYSQL_DATABASE: journal-management
+    ports:
+      - "3306:3306"
+
+  journal-app:
+    build: .
+    container_name: journal-app
+    depends_on:
+      - mysql-db
+    ports:
+      - "9090:9090"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_URL: jdbc:mysql://mysql-db:3306/journal-management
